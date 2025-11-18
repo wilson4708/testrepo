@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PG Scanner</title>
+    <link rel="stylesheet" href="Styles.css" />
+
+    <!-- External Dependencies: TensorFlow.js and Teachable Machine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+  </head>
+  <body>
+    <h1>PG Scanner</h1>
+
+    <!-- ========== Patient Information Form ========== -->
+    <div id="patient-form-container" class="form-container">
+      <h3>Patient Information</h3>
+      <form id="patient-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="patient-name">Patient Name:</label>
+          <input type="text" id="patient-name" name="name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="patient-age">Age:</label>
+          <input
+            type="number"
+            id="patient-age"
+            name="age"
+            min="0"
+            max="150"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="patient-sex">Sex:</label>
+          <select id="patient-sex" name="sex" required>
+            <option value="">Select...</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="patient-notes">Notes (Optional):</label>
+          <textarea id="patient-notes" name="notes" rows="3"></textarea>
+        </div>
+      </form>
+    </div>
+
+    <!-- ========== Webcam and Results Section ========== -->
+    <h4 id="text">Confidence Levels</h4>
+    <div class="camPlaceHolder" id="webcam-container"></div>
+    <div id="label-container"></div>
+
+    <!-- ========== Action Buttons ========== -->
+    <div class="button-container">
+      <button id="view-records-btn">View Records</button>
+      <button id="PDFbtn" onclick="exportToPDFWithPatient()">Export PDF</button>
+      <button id="StartCamBtn">Start Camera Feed</button>
+    </div>
+
+    <!-- ========== Records Modal ========== -->
+    <div id="records-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Patient Records</h2>
+        <div class="search-container">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search by name or ID..."
+          />
+          <button id="search-btn">Search</button>
+          <button id="show-all-btn">Show All</button>
+        </div>
+        <div id="records-list"></div>
+      </div>
+    </div>
+
+    <!-- ========== JavaScript Dependencies ========== -->
+    <!-- Load order matters: Database → ML → PDF → App Logic -->
+    <script src="PatientDatabase.js"></script>
+    <script src="TeachableScript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="PdfExport.js"></script>
+    <script src="App.js"></script>
+  </body>
+</html>
